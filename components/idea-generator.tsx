@@ -447,7 +447,7 @@ export function IdeaGenerator() {
 
     try {
       // Get auth token from localStorage
-      const token = localStorage.getItem("supabase.auth.token");
+      const token = localStorage.getItem("sb-" + process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/[^a-zA-Z0-9]/g, '') + "-auth-token");
 
       const response = await fetch("/api/ideas", {
         method: "POST",

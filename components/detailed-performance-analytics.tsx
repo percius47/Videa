@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { VideoIdea } from "@/lib/types";
+import { useAuth } from "@/components/auth/auth-provider";
 import {
   Card,
   CardContent,
@@ -42,6 +43,7 @@ export function DetailedPerformanceAnalytics() {
   const [ideas, setIdeas] = useState<VideoIdea[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     async function fetchIdeas() {
@@ -49,8 +51,8 @@ export function DetailedPerformanceAnalytics() {
         let fetchedIdeas: VideoIdea[] = [];
         let hasData = false;
 
-        // First, try to get from Supabase if browser APIs are available
-        if (typeof window !== "undefined") {
+        // First, try to get from Supabase if browser APIs are available and user is logged in
+        if (typeof window !== "undefined" && user) {
           try {
             // Create a Supabase client
             const supabase = createClient(
@@ -91,40 +93,39 @@ export function DetailedPerformanceAnalytics() {
             console.error("Error fetching from Supabase:", supabaseError);
             // Continue to localStorage fallback
           }
+        }
 
-          // If no data from Supabase, try localStorage
-          if (!hasData) {
-            try {
-              // Try to get recent ideas from localStorage
-              const storedIdeas = localStorage.getItem("recentIdeas");
-              const lastGeneratedIdea =
-                localStorage.getItem("lastGeneratedIdea");
+        // If no data from Supabase or user is not logged in, try localStorage
+        if (!hasData) {
+          try {
+            // Try to get recent ideas from localStorage
+            const storedIdeas = localStorage.getItem("recentIdeas");
+            const lastGeneratedIdea = localStorage.getItem("lastGeneratedIdea");
 
-              if (storedIdeas) {
-                const parsedIdeas = JSON.parse(storedIdeas);
-                if (Array.isArray(parsedIdeas) && parsedIdeas.length > 0) {
-                  fetchedIdeas = parsedIdeas;
-                  hasData = true;
-                }
+            if (storedIdeas) {
+              const parsedIdeas = JSON.parse(storedIdeas);
+              if (Array.isArray(parsedIdeas) && parsedIdeas.length > 0) {
+                fetchedIdeas = parsedIdeas;
+                hasData = true;
               }
-
-              // Add the last generated idea if it's not in the list
-              if (lastGeneratedIdea) {
-                const parsedIdea = JSON.parse(lastGeneratedIdea);
-                if (
-                  parsedIdea &&
-                  !fetchedIdeas.some((idea) => idea.id === parsedIdea.id)
-                ) {
-                  fetchedIdeas.unshift(parsedIdea);
-                  hasData = true;
-                }
-              }
-            } catch (localStorageError) {
-              console.error(
-                "Error retrieving from localStorage:",
-                localStorageError
-              );
             }
+
+            // Add the last generated idea if it's not in the list
+            if (lastGeneratedIdea) {
+              const parsedIdea = JSON.parse(lastGeneratedIdea);
+              if (
+                parsedIdea &&
+                !fetchedIdeas.some((idea) => idea.id === parsedIdea.id)
+              ) {
+                fetchedIdeas.unshift(parsedIdea);
+                hasData = true;
+              }
+            }
+          } catch (localStorageError) {
+            console.error(
+              "Error retrieving from localStorage:",
+              localStorageError
+            );
           }
         }
 
@@ -148,7 +149,7 @@ export function DetailedPerformanceAnalytics() {
     }
 
     fetchIdeas();
-  }, []);
+  }, [user]); // Add user as a dependency
 
   // If loading, show skeleton
   if (loading) {

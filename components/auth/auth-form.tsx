@@ -39,14 +39,20 @@ export function AuthForm() {
       const { error } = await signIn(loginEmail, loginPassword);
 
       if (error) {
-        toast.error("Login failed: " + error.message);
+        console.error("Login error:", error);
+        toast.error(
+          error.message || "Failed to login. Please check your credentials."
+        );
       } else {
         toast.success("Logged in successfully!");
         router.push("/");
         router.refresh();
       }
     } catch (error: any) {
-      toast.error("Login failed: " + error.message);
+      console.error("Login error:", error);
+      toast.error(
+        error.message || "An unexpected error occurred during login."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -60,19 +66,30 @@ export function AuthForm() {
       return;
     }
 
+    if (signupPassword.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
       const { error } = await signUp(signupEmail, signupPassword);
 
       if (error) {
-        toast.error("Signup failed: " + error.message);
+        console.error("Signup error:", error);
+        toast.error(
+          error.message || "Failed to create account. Please try again."
+        );
       } else {
         toast.success("Please check your email to confirm your account");
         router.refresh();
       }
     } catch (error: any) {
-      toast.error("Signup failed: " + error.message);
+      console.error("Signup error:", error);
+      toast.error(
+        error.message || "An unexpected error occurred during signup."
+      );
     } finally {
       setIsLoading(false);
     }

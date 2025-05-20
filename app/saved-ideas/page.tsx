@@ -92,7 +92,11 @@ export default function SavedIdeasPage() {
       setError(null);
 
       // Get auth token from localStorage
-      const token = localStorage.getItem("supabase.auth.token");
+      const token = localStorage.getItem(
+        "sb-" +
+          process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/[^a-zA-Z0-9]/g, "") +
+          "-auth-token"
+      );
 
       const response = await fetch("/api/ideas", {
         cache: "no-store",
@@ -142,7 +146,11 @@ export default function SavedIdeasPage() {
       if (isDeleting) return;
       setIsDeleting(true);
 
-      const token = localStorage.getItem("supabase.auth.token");
+      const token = localStorage.getItem(
+        "sb-" +
+          process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/[^a-zA-Z0-9]/g, "") +
+          "-auth-token"
+      );
       const response = await fetch(`/api/ideas/${ideaId}`, {
         method: "DELETE",
         headers: {

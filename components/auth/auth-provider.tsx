@@ -25,9 +25,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Helper function to store token outside of component state
 function storeAuthToken(token: string | null) {
   if (token) {
-    localStorage.setItem("supabase.auth.token", token);
+    localStorage.setItem(
+      "sb-" +
+        process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/[^a-zA-Z0-9]/g, "") +
+        "-auth-token",
+      token
+    );
   } else {
-    localStorage.removeItem("supabase.auth.token");
+    localStorage.removeItem(
+      "sb-" +
+        process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/[^a-zA-Z0-9]/g, "") +
+        "-auth-token"
+    );
   }
 }
 

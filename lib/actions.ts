@@ -543,10 +543,21 @@ export async function getRecentIdeas(): Promise<VideoIdea[]> {
       process.env.SUPABASE_SERVICE_KEY!
     );
 
+    // Get the current session
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    // If no session, return in-memory ideas
+    if (!session) {
+      return recentIdeas;
+    }
+
     // Query for the 3 most recent ideas
     const { data, error } = await supabase
       .from("video_ideas")
       .select("*")
+      .eq("user_id", session.user.id)
       .order("created_at", { ascending: false })
       .limit(3);
 
@@ -578,7 +589,7 @@ export async function getRecentIdeas(): Promise<VideoIdea[]> {
 
     return ideas;
   } catch (error) {
-    console.error("Error fetching recent ideas:", error);
+    console.error("Error in getRecentIdeas:", error);
     // Return the in-memory ideas as a fallback
     return recentIdeas;
   }

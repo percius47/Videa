@@ -26,6 +26,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { toast } from "sonner";
+import { Youtube } from "lucide-react";
 
 // Enhanced TrendingVideo interface to match API
 interface TrendingVideo {
@@ -459,7 +460,22 @@ export function TrendingVideosCarousel() {
       {/* Hero section with featured video background */}
       <div className="relative w-full h-[70vh] overflow-hidden">
         {isLoading ? (
-          <Skeleton className="w-full h-full" />
+          <div className="w-full h-full flex flex-col items-center justify-center bg-muted/50">
+            <div className="flex flex-col items-center gap-4">
+              <div className="relative">
+                <div className="w-16 h-16 border-4 border-primary/20 rounded-full animate-spin border-t-primary"></div>
+                <Youtube className="w-8 h-8 text-primary absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+              </div>
+              <div className="text-center space-y-2">
+                <h3 className="text-lg font-semibold">
+                  Fetching Live YouTube Data
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Loading trending videos from {getRegionName(region)}...
+                </p>
+              </div>
+            </div>
+          </div>
         ) : trendingVideos.length > 0 ? (
           <>
             {/* Background video thumbnail with gradient overlay */}
@@ -560,7 +576,11 @@ export function TrendingVideosCarousel() {
         {isLoading ? (
           <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {Array.from({ length: 5 }).map((_, i) => (
-              <Skeleton key={i} className="aspect-video rounded-md" />
+              <div key={i} className="space-y-2">
+                <Skeleton className="aspect-video rounded-md" />
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
             ))}
           </div>
         ) : (

@@ -28,7 +28,7 @@ export default function RootLayout({
         >
           <AuthProvider>
             <div className="min-h-screen flex flex-col">
-              <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+              <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="container flex h-14 items-center">
                   <div className="flex items-center gap-2 font-bold">
                     <Sparkles className="h-5 w-5 text-primary" />
@@ -38,7 +38,7 @@ export default function RootLayout({
                   </div>
                   <nav className="ml-auto flex items-center gap-4">
                     <Button variant="ghost" size="sm" asChild>
-                      <a href="/">Dashboard</a>
+                      <a href="/saved-ideas">Saved Ideas</a>
                     </Button>
                     <Button variant="ghost" size="sm" asChild>
                       <a href="/analytics">Analytics</a>

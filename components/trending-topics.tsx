@@ -469,29 +469,44 @@ export function TrendingTopics() {
               <CardDescription>Most popular video categories</CardDescription>
             </CardHeader>
             <CardContent>
-              <ul className="space-y-2">
-                {trendingData.categories.map((category: any) => (
-                  <li
-                    key={category.name}
-                    className="flex items-center justify-between"
-                  >
-                    <span className="text-sm">{category.name}</span>
-                    <Badge
-                      variant={
-                        category.growth === "high" ? "default" : "outline"
-                      }
-                      className="flex items-center gap-1"
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-8 space-y-4">
+                  <div className="relative">
+                    <div className="w-12 h-12 border-4 border-primary/20 rounded-full animate-spin border-t-primary"></div>
+                    <RefreshCw className="w-6 h-6 text-primary absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+                  </div>
+                  <div className="text-center space-y-1">
+                    <p className="text-sm font-medium">Fetching Live Data</p>
+                    <p className="text-xs text-muted-foreground">
+                      Analyzing trending content from {getRegionName(region)}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <ul className="space-y-2">
+                  {trendingData.categories.map((category: any) => (
+                    <li
+                      key={category.name}
+                      className="flex items-center justify-between"
                     >
-                      {category.growth === "high" ? (
-                        <ArrowUp className="h-3 w-3 text-green-500" />
-                      ) : (
-                        <ArrowRight className="h-3 w-3 text-amber-500" />
-                      )}
-                      {category.growth === "high" ? "Hot" : "Rising"}
-                    </Badge>
-                  </li>
-                ))}
-              </ul>
+                      <span className="text-sm">{category.name}</span>
+                      <Badge
+                        variant={
+                          category.growth === "high" ? "default" : "outline"
+                        }
+                        className="flex items-center gap-1"
+                      >
+                        {category.growth === "high" ? (
+                          <ArrowUp className="h-3 w-3 text-green-500" />
+                        ) : (
+                          <ArrowRight className="h-3 w-3 text-amber-500" />
+                        )}
+                        {category.growth === "high" ? "Hot" : "Rising"}
+                      </Badge>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </CardContent>
           </Card>
 

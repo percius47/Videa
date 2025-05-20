@@ -4,7 +4,11 @@ import type { VideoIdea } from "./types";
 // Save a video idea to the database
 export async function saveVideoIdea(idea: VideoIdea, userId: string) {
   // Instead of using client-side Supabase directly, use our API
-  const token = localStorage.getItem("supabase.auth.token");
+  const token = localStorage.getItem(
+    "sb-" +
+      process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/[^a-zA-Z0-9]/g, "") +
+      "-auth-token"
+  );
 
   const response = await fetch("/api/ideas", {
     method: "POST",
@@ -30,7 +34,11 @@ export async function saveVideoIdea(idea: VideoIdea, userId: string) {
 // Get all video ideas for a user
 export async function getUserVideoIdeas(userId: string) {
   // Instead of using client-side Supabase directly, use our API
-  const token = localStorage.getItem("supabase.auth.token");
+  const token = localStorage.getItem(
+    "sb-" +
+      process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/[^a-zA-Z0-9]/g, "") +
+      "-auth-token"
+  );
 
   const response = await fetch("/api/ideas", {
     headers: {
@@ -50,7 +58,11 @@ export async function getUserVideoIdeas(userId: string) {
 // Delete a video idea
 export async function deleteVideoIdea(ideaId: string, userId: string) {
   // Instead of using client-side Supabase directly, use our API
-  const token = localStorage.getItem("supabase.auth.token");
+  const token = localStorage.getItem(
+    "sb-" +
+      process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/[^a-zA-Z0-9]/g, "") +
+      "-auth-token"
+  );
 
   const response = await fetch(`/api/ideas/${ideaId}`, {
     method: "DELETE",
