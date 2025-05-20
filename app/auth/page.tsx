@@ -5,9 +5,7 @@ export default function AuthPage() {
     <div className="container flex items-center justify-center min-h-screen py-12">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 max-w-md">
         <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Welcome to VIdia
-          </h1>
+          <h1 className="text-4xl font-bold mb-8">Welcome to Videa</h1>
           <p className="text-sm text-muted-foreground">
             Sign in to save your video ideas and access them anywhere
           </p>

@@ -8,9 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "VIdia - AI Video Idea Generator",
+  title: "Videa - AI Video Idea Generator",
   description: "Generate viral video ideas using AI and YouTube trends",
   generator: "v0.dev",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
@@ -33,7 +38,7 @@ export default function RootLayout({
                   <div className="flex items-center gap-2 font-bold">
                     <Sparkles className="h-5 w-5 text-primary" />
                     <a href="/" className="font-semibold text-lg">
-                      VIdia
+                      Videa
                     </a>
                   </div>
                   <nav className="ml-auto flex items-center gap-4">

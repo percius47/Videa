@@ -26,14 +26,14 @@ export async function ensureAssistant(): Promise<string> {
   }
 
   // Create a new assistant
-  console.log("Creating new OpenAI assistant for VIdia...");
+  console.log("Creating new OpenAI assistant for Videa...");
 
   const assistant = await openai.beta.assistants.create({
-    name: "VIdia Video Idea Generator",
+    name: "Videa Video Idea Generator",
     description:
       "An assistant that generates viral video ideas based on YouTube trends and user preferences",
-    model: "gpt-4o-mini",
-    instructions: `You are an AI assistant for VIdia, an application that helps content creators generate viral video ideas based on trending topics and data analysis. 
+    model: "gpt-4-turbo-preview",
+    instructions: `You are an AI assistant for Videa, an application that helps content creators generate viral video ideas based on trending topics and data analysis. 
 
 Your role is to create original, engaging video concepts that have viral potential. You should:
 1. Analyze trending topics and data
